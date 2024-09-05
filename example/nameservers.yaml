@@ -1,0 +1,18 @@
+dns:
+  disable_for:
+  - g3
+
+nameservers:
+- name: Google DNS
+  description: Google DNS servers
+  nameservers:
+    - ip: 8.8.8.8
+      ns_type: udp
+      port: 53
+  enabled: true
+  groups:
+    - g1
+  primary: true
+  domains:
+    - example.com
+  search_domains_enabled: true

@@ -1,0 +1,33 @@
+posture_checks:
+- name: pc1
+  description: This checks if the peer is running required NetBird's version
+  checks:
+    nb_version_check:
+      min_version: "14.3"
+    os_version_check:
+      android:
+        min_version: "13"
+      ios:
+        min_version: 17.3.1
+      darwin:
+        min_version: 14.2.1
+      linux:
+        min_kernel_version: 5.3.3
+      windows:
+        min_kernel_version: 10.0.1234
+    geo_location_check:
+      locations:
+        - country_code: DE
+          city_name: Berlin
+      action: allow
+    peer_network_range_check:
+      ranges:
+          - 192.168.1.0/24
+          - 10.0.0.0/8
+          - 2001:db8:1234:1a00::/56
+      action: allow
+    process_check:
+      processes:
+        - linux_path: /usr/local/bin/netbird
+          mac_path: /Applications/NetBird.app/Contents/MacOS/netbird
+          windows_path: "C:\ProgramData\\NetBird\\netbird.exe"

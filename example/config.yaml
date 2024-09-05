@@ -1,0 +1,3 @@
+config:
+  autoSync: false
+  individualPeerGroups: true

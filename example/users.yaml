@@ -1,0 +1,9 @@
+users:
+- email: someone@somewhere.com
+  groups:
+  - g1
+  - g2
+  role: admin
+- email: another@somewhere.com
+  groups:
+  - g3

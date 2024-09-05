@@ -1,0 +1,5 @@
+peers:
+- id: cr6ibk8pcsa9d3fncct0
+  name: "Test"
+  groups:
+  - g2

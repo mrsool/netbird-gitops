@@ -1,0 +1,13 @@
+policies:
+- name: Production
+  description: Production machines access
+  enabled: false
+  source_posture_checks:
+  - pc1
+  action: accept
+  bidirectional: false
+  protocol: all
+  sources:
+  - g1
+  destinations:
+  - g3
