@@ -1,5 +1,9 @@
 # NetBird GitOps
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/Instabug/netbird-gitops.svg)](https://pkg.go.dev/github.com/Instabug/netbird-gitops)
+![CodeQL](https://github.com/instabug/netbird-gitops/actions/workflows/github-code-scanning/codeql/badge.svg)
+![Build](https://github.com/instabug/netbird-gitops/actions/workflows/docker-publish.yml/badge.svg)
+
 This program is made to synchronize [Netbird](https://netbird.io) configuration 
 with a source-controller git repository.
 
