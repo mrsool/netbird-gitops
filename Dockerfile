@@ -8,7 +8,7 @@ RUN set -Eeux && \
 
 RUN GOOS=linux GOARCH=amd64 \
     go build \
-    -o app cmd/
+    -o app cmd/*
 
 FROM alpine:3.17.1
 RUN apk --no-cache add ca-certificates
