@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/Instabug/netbird-gitops/pkg/controller"
 	"github.com/go-git/go-git/v5/plumbing/transport"
@@ -31,6 +32,7 @@ var (
 	gitPassword           = flag.String("git-password", os.Getenv("GIT_PASSWORD"), "git basic auth password, must be defined if --git-auth-method is basic")
 	gitPrivateKeyPath     = flag.String("git-private-key-path", os.Getenv("GIT_PRIVATE_KEY_PATH"), "git SSH private key path, must be defined if --git-auth-method is ssh")
 	gitPrivateKeyPassword = flag.String("git-private-key-password", os.Getenv("GIT_PRIVATE_KEY_PASSWORD"), "git SSH private key password (if any)")
+	syncFrequency         = flag.Duration("sync-frequency", time.Minute, "Time between syncs")
 	netbirdToken          = flag.String("netbird-token", os.Getenv("NETBIRD_TOKEN"), "NetBird Management API token")
 	netbirdManagementAPI  = flag.String("netbird-mgmt-api", os.Getenv("NETBIRD_MANAGEMENT_API"), "NetBird Management API URL")
 	logLevel              = flag.String("log-level", os.Getenv("LOG_LEVEL"), "Log level (debug, info, warn, error)")

@@ -13,6 +13,7 @@ import (
 	"github.com/Instabug/netbird-gitops/pkg/client"
 	"github.com/Instabug/netbird-gitops/pkg/data"
 	"github.com/go-git/go-git/v5"
+	"github.com/go-git/go-git/v5/plumbing"
 	"github.com/go-git/go-git/v5/plumbing/transport"
 	"github.com/nikoksr/notify"
 	"gopkg.in/yaml.v3"
@@ -35,6 +36,7 @@ type Options struct {
 	NetBirdToken    string
 	NetBirdAPI      string
 	SyncOnceAndExit bool
+	PollFrequency   time.Duration
 }
 
 // NewController init
@@ -52,10 +54,11 @@ func (c *Controller) Start(ctx context.Context) error {
 	slog.Info("Cloning repository")
 	os.RemoveAll(localRepoPath)
 	repo, err := git.PlainCloneContext(ctx, localRepoPath, false, &git.CloneOptions{
-		URL:          c.GitRepoURL,
-		RemoteName:   "origin",
-		Auth:         c.GitAuth,
-		SingleBranch: true,
+		URL:           c.GitRepoURL,
+		ReferenceName: plumbing.NewBranchReferenceName(c.GitBranch),
+		RemoteName:    "origin",
+		Auth:          c.GitAuth,
+		SingleBranch:  true,
 	})
 	if err != nil {
 		return fmt.Errorf("Failed to initialize repo pull: %w", err)
@@ -99,10 +102,11 @@ func (c *Controller) Start(ctx context.Context) error {
 		}
 		slog.Info("Pulling changes")
 		err = workTree.PullContext(ctx, &git.PullOptions{
-			RemoteName:   "origin",
-			RemoteURL:    c.GitRepoURL,
-			Auth:         c.GitAuth,
-			SingleBranch: true,
+			RemoteName:    "origin",
+			RemoteURL:     c.GitRepoURL,
+			ReferenceName: plumbing.NewBranchReferenceName(c.GitBranch),
+			Auth:          c.GitAuth,
+			SingleBranch:  true,
 		})
 		if err != nil && err != git.NoErrAlreadyUpToDate {
 			slog.Error("Failed to pull repo", "err", err)
