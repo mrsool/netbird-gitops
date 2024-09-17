@@ -476,9 +476,9 @@ func (c Controller) syncUsers(ctx context.Context, cfg *data.CombinedConfig, gro
 		// User autogroups not equal
 		// Map group names to IDs
 		slog.Warn("Updating user", "email", u.Email, "old_groups", nbUserGroupNames, "new_groups", gitUser.Groups, "old_role", u.Role, "new_role", gitUser.GetRole())
-		notify.Send(ctx, "", fmt.Sprintf("Updating user %s with config: %+v", u.Email, u))
 		u.Groups = util.Map(gitUser.Groups, func(a string) string { return groupNameID[a] })
 		u.Role = gitUser.GetRole()
+		notify.Send(ctx, "", fmt.Sprintf("Updating user %s with config: %+v", u.Email, u))
 
 		err := c.netbirdClient.UpdateUser(ctx, u)
 		if err != nil {
