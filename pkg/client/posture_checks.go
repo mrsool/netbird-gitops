@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log/slog"
 
 	"github.com/Instabug/netbird-gitops/pkg/data"
 )
@@ -27,6 +28,7 @@ func (c Client) ListPostureChecks(ctx context.Context) ([]data.PostureCheck, err
 // UpdatePostureCheck updates a single NetBird postureCheck
 func (c Client) UpdatePostureCheck(ctx context.Context, postureCheck data.PostureCheck) error {
 	if c.DryRun {
+		slog.Info("DryRun==True")
 		return nil
 	}
 
@@ -72,6 +74,7 @@ func (c Client) CreatePostureCheck(ctx context.Context, postureCheck data.Postur
 // DeletePostureCheck updates a single NetBird postureCheck
 func (c Client) DeletePostureCheck(ctx context.Context, postureCheck data.PostureCheck) error {
 	if c.DryRun {
+		slog.Info("DryRun==True")
 		return nil
 	}
 

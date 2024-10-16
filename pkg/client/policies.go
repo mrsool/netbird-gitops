@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log/slog"
 
 	"github.com/Instabug/netbird-gitops/pkg/data"
 )
@@ -31,6 +32,7 @@ func (c Client) ListPolicies(ctx context.Context) ([]data.Policy, error) {
 // UpdatePolicy updates a single NetBird policy
 func (c Client) UpdatePolicy(ctx context.Context, policy data.Policy) error {
 	if c.DryRun {
+		slog.Info("DryRun==True")
 		return nil
 	}
 
@@ -64,6 +66,7 @@ func (c Client) UpdatePolicy(ctx context.Context, policy data.Policy) error {
 // CreatePolicy updates a single NetBird policy
 func (c Client) CreatePolicy(ctx context.Context, policy data.Policy) error {
 	if c.DryRun {
+		slog.Info("DryRun==True")
 		return nil
 	}
 
@@ -97,6 +100,7 @@ func (c Client) CreatePolicy(ctx context.Context, policy data.Policy) error {
 // DeletePolicy updates a single NetBird policy
 func (c Client) DeletePolicy(ctx context.Context, policy data.Policy) error {
 	if c.DryRun {
+		slog.Info("DryRun==True")
 		return nil
 	}
 

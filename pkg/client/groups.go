@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log/slog"
 
 	"github.com/Instabug/netbird-gitops/pkg/data"
 )
@@ -52,6 +53,7 @@ func (c Client) CreateGroup(ctx context.Context, group data.Group) (data.Group, 
 // UpdateGroup update NetBird Group
 func (c Client) UpdateGroup(ctx context.Context, group data.Group) error {
 	if c.DryRun {
+		slog.Info("DryRun==True")
 		return nil
 	}
 	body := map[string]interface{}{
@@ -70,6 +72,7 @@ func (c Client) UpdateGroup(ctx context.Context, group data.Group) error {
 // DeleteGroup delete NetBird Group
 func (c Client) DeleteGroup(ctx context.Context, group data.Group) error {
 	if c.DryRun {
+		slog.Info("DryRun==True")
 		return nil
 	}
 

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log/slog"
 
 	"github.com/Instabug/netbird-gitops/pkg/data"
 )
@@ -27,6 +28,7 @@ func (c Client) GetDNSSettings(ctx context.Context) (data.DNSResponse, error) {
 // UpdateDNSSettings Update NetBird DNS settings
 func (c Client) UpdateDNSSettings(ctx context.Context, settings data.DNS) error {
 	if c.DryRun {
+		slog.Info("DryRun==True")
 		return nil
 	}
 
@@ -62,6 +64,7 @@ func (c Client) ListNameservers(ctx context.Context) ([]data.Nameserver, error) 
 // UpdateNameserver updates a single NetBird nameserver
 func (c Client) UpdateNameserver(ctx context.Context, nameserver data.Nameserver) error {
 	if c.DryRun {
+		slog.Info("DryRun==True")
 		return nil
 	}
 
@@ -100,6 +103,7 @@ func (c Client) CreateNameserver(ctx context.Context, nameserver data.Nameserver
 // DeleteNameserver updates a single NetBird nameserver
 func (c Client) DeleteNameserver(ctx context.Context, nameserver data.Nameserver) error {
 	if c.DryRun {
+		slog.Info("DryRun==True")
 		return nil
 	}
 

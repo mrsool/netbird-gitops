@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log/slog"
 
 	"github.com/Instabug/netbird-gitops/pkg/data"
 )
@@ -27,6 +28,7 @@ func (c Client) ListNetworkRoutes(ctx context.Context) ([]data.NetworkRoute, err
 // UpdateNetworkRoute updates a single NetBird route
 func (c Client) UpdateNetworkRoute(ctx context.Context, route data.NetworkRoute) error {
 	if c.DryRun {
+		slog.Info("DryRun==True")
 		return nil
 	}
 
@@ -34,14 +36,22 @@ func (c Client) UpdateNetworkRoute(ctx context.Context, route data.NetworkRoute)
 		"description": route.Description,
 		"network_id":  route.NetworkID,
 		"enabled":     route.Enabled,
-		"peer":        route.Peer,
-		"peer_groups": route.PeerGroups,
-		"network":     route.Network,
-		"domains":     route.Domains,
 		"metric":      route.Metric,
 		"masquerade":  route.Masquerade,
 		"groups":      route.Groups,
 		"keep_route":  route.KeepRoute,
+	}
+
+	if len(route.Domains) > 0 {
+		body["domains"] = route.Domains
+	} else {
+		body["network"] = route.Network
+	}
+
+	if len(route.PeerGroups) > 0 {
+		body["peer_groups"] = route.PeerGroups
+	} else {
+		body["peer"] = route.Peer
 	}
 
 	_, err := c.doRequest(ctx, "PUT", "routes/"+route.ID, body)
@@ -54,6 +64,7 @@ func (c Client) UpdateNetworkRoute(ctx context.Context, route data.NetworkRoute)
 // CreateNetworkRoute updates a single NetBird route
 func (c Client) CreateNetworkRoute(ctx context.Context, route data.NetworkRoute) error {
 	if c.DryRun {
+		slog.Info("DryRun==True")
 		return nil
 	}
 
@@ -61,14 +72,22 @@ func (c Client) CreateNetworkRoute(ctx context.Context, route data.NetworkRoute)
 		"description": route.Description,
 		"network_id":  route.NetworkID,
 		"enabled":     route.Enabled,
-		"peer":        route.Peer,
-		"peer_groups": route.PeerGroups,
-		"network":     route.Network,
-		"domains":     route.Domains,
 		"metric":      route.Metric,
 		"masquerade":  route.Masquerade,
 		"groups":      route.Groups,
 		"keep_route":  route.KeepRoute,
+	}
+
+	if len(route.Domains) > 0 {
+		body["domains"] = route.Domains
+	} else {
+		body["network"] = route.Network
+	}
+
+	if len(route.PeerGroups) > 0 {
+		body["peer_groups"] = route.PeerGroups
+	} else {
+		body["peer"] = route.Peer
 	}
 
 	_, err := c.doRequest(ctx, "POST", "routes", body)
@@ -81,6 +100,7 @@ func (c Client) CreateNetworkRoute(ctx context.Context, route data.NetworkRoute)
 // DeleteNetworkRoute updates a single NetBird route
 func (c Client) DeleteNetworkRoute(ctx context.Context, route data.NetworkRoute) error {
 	if c.DryRun {
+		slog.Info("DryRun==True")
 		return nil
 	}
 

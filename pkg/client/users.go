@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log/slog"
 
 	"github.com/Instabug/netbird-gitops/pkg/data"
 )
@@ -27,6 +28,7 @@ func (c Client) ListUsers(ctx context.Context) ([]data.User, error) {
 // UpdateUser updates a single NetBird user
 func (c Client) UpdateUser(ctx context.Context, user data.User) error {
 	if c.DryRun {
+		slog.Info("DryRun==True")
 		return nil
 	}
 

@@ -74,8 +74,9 @@ func (c *Controller) Start(ctx context.Context) error {
 
 	}
 
-	if err := c.doSync(ctx, cfg, c.SyncOnceAndExit || cfg.Config.AutoSync != "enforce"); err != nil {
+	if err := c.doSync(ctx, cfg, !c.SyncOnceAndExit && cfg.Config.AutoSync == "manual"); err != nil {
 		slog.Error("Failed to sync", "err", err)
+		notify.Send(ctx, "Sync failed", fmt.Sprintf("Failed to do initial sync due to error: %s", err.Error()))
 	}
 
 	if c.SyncOnceAndExit {
@@ -83,6 +84,10 @@ func (c *Controller) Start(ctx context.Context) error {
 	}
 	// Start polling loop for changes
 	latestHead, err := repo.Head()
+	if err != nil {
+		return fmt.Errorf("Failed to get repo HEAD: %w", err)
+	}
+	latestCommit, err := repo.CommitObject(latestHead.Hash())
 	if err != nil {
 		return fmt.Errorf("Failed to get repo HEAD: %w", err)
 	}
@@ -120,6 +125,12 @@ func (c *Controller) Start(ctx context.Context) error {
 			notify.Send(ctx, "Get repo HEAD failed", fmt.Sprintf("Failed to get repository %s HEAD with error: %s", c.GitRepoURL, err.Error()))
 			continue
 		}
+		curCommit, err := repo.CommitObject(latestHead.Hash())
+		if err != nil {
+			slog.Error("Error getting latest commit")
+			notify.Send(ctx, "Get repo HEAD failed", fmt.Sprintf("Failed to get repository %s HEAD with error: %s", c.GitRepoURL, err.Error()))
+			continue
+		}
 
 		cfg, err := c.getCombinedConfig()
 		if err != nil {
@@ -140,7 +151,16 @@ func (c *Controller) Start(ctx context.Context) error {
 				},
 			})
 			cmt, err := iter.Next()
+			slog.Debug("Latest hash", "hash", latestHead.Hash().String())
 			for err == nil && cmt.Hash.String() != latestHead.Hash().String() {
+				ancestor, err := latestCommit.IsAncestor(cmt)
+				if err != nil {
+					slog.Error("Error checking commit ancestry", "ancestor", latestCommit.Hash.String(), "descendant", cmt.Hash.String(), "err", err)
+				}
+				if !ancestor {
+					break
+				}
+				slog.Debug("Checking commit", "hash", cmt.Hash.String())
 				fs, err := cmt.Stats()
 				if err != nil {
 					slog.Error("Error checking commit stats", "commit", cmt.Hash.String(), "err", err)
@@ -164,6 +184,7 @@ func (c *Controller) Start(ctx context.Context) error {
 		}
 
 		latestHead = curHead
+		latestCommit = curCommit
 	}
 }
 

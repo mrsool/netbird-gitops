@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log/slog"
 
 	"github.com/Instabug/netbird-gitops/pkg/data"
 )
@@ -27,6 +28,7 @@ func (c Client) ListPeers(ctx context.Context) ([]data.Peer, error) {
 // UpdatePeer updates a single NetBird user
 func (c Client) UpdatePeer(ctx context.Context, peer data.Peer) error {
 	if c.DryRun {
+		slog.Info("DryRun==True")
 		return nil
 	}
 
