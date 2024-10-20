@@ -266,6 +266,17 @@ func (c Controller) syncNetworkRoutes(ctx context.Context, cfg *data.CombinedCon
 	routesRevMap := util.SliceToMap(routes, func(r data.NetworkRoute) string { return r.NetworkID })
 	gitRoutesRevMap := util.SliceToMap(cfg.NetworkRoutes, func(r data.NetworkRoute) string { return r.NetworkID })
 
+	for k, v := range routesRevMap {
+		if _, ok := gitRoutesRevMap[k]; !ok {
+			slog.Warn("Deleting network route", "network_id", v.NetworkID)
+			notify.Send(ctx, "", fmt.Sprintf("Deleting network route %s", v.NetworkID))
+			err = c.netbirdClient.DeleteNetworkRoute(ctx, v)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	for k, v := range gitRoutesRevMap {
 		gitRoute := data.NetworkRoute{
 			NetworkType: v.NetworkType,
@@ -298,17 +309,6 @@ func (c Controller) syncNetworkRoutes(ctx context.Context, cfg *data.CombinedCon
 			slog.Warn("Updating network route", "old_route", routesRevMap[k], "route", gitRoute)
 			notify.Send(ctx, "", fmt.Sprintf("Updating network route %s with config: %+v", v.NetworkID, gitRoute))
 			err = c.netbirdClient.UpdateNetworkRoute(ctx, gitRoute)
-			if err != nil {
-				return err
-			}
-		}
-	}
-
-	for k, v := range routesRevMap {
-		if _, ok := gitRoutesRevMap[k]; !ok {
-			slog.Warn("Deleting network route", "network_id", v.NetworkID)
-			notify.Send(ctx, "", fmt.Sprintf("Deleting network route %s", v.NetworkID))
-			err = c.netbirdClient.DeleteNetworkRoute(ctx, v)
 			if err != nil {
 				return err
 			}
