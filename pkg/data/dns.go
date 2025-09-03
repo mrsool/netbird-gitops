@@ -33,9 +33,9 @@ type Nameserver struct {
 
 // NameserverServer holds prot://ip:port
 type NameserverServer struct {
-	IP     string `yaml:"ip"`
-	NSType string `yaml:"ns_type"`
-	Port   uint   `yaml:"port"`
+	IP     string `yaml:"ip" json:"ip"`
+	NSType string `yaml:"ns_type" json:"ns_type"`
+	Port   uint   `yaml:"port" json:"port"`
 }
 
 // Equals == operator

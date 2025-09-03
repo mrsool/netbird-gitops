@@ -82,7 +82,7 @@ func (c Controller) syncNameservers(ctx context.Context, cfg *data.CombinedConfi
 
 	for k, v := range gitNSRevMap {
 		gitNS := data.Nameserver{
-			Name:                 v.ID,
+			Name:                 v.Name,
 			Description:          v.Description,
 			Nameservers:          v.Nameservers,
 			Enabled:              v.Enabled,
@@ -392,6 +392,16 @@ func (c Controller) syncPeers(ctx context.Context, cfg *data.CombinedConfig) (ma
 		return nil, err
 	}
 
+	// If no peers are defined in Git config, skip peer sync entirely
+	if len(cfg.Peers) == 0 {
+		slog.Info("No peers defined in Git configuration, skipping peer sync")
+		peerRevMap := make(map[string]data.Peer)
+		for _, p := range peers {
+			peerRevMap[p.ID] = p
+		}
+		return peerRevMap, nil
+	}
+
 	gitPeerRevMap := util.SliceToMap(cfg.Peers, func(v data.Peer) string { return v.ID })
 
 	for _, p := range peers {
@@ -473,13 +483,13 @@ func (c Controller) syncUsers(ctx context.Context, cfg *data.CombinedConfig, gro
 			// TODO: Deletion or just blocking?
 			slog.Warn("User exists in NetBird but not in Git", "email", u.Email)
 			notify.Send(ctx, "", fmt.Sprintf("User %s exists in NetBird but not in Git, user blocked", u.Email))
-			
+
 			// Skip blocking users with empty emails as they cause API errors
 			if u.Email == "" {
 				slog.Warn("Skipping block for user with empty email", "id", u.ID)
 				continue
 			}
-			
+
 			u.Blocked = true
 			u.Groups = []string{}
 			u.Role = ""
