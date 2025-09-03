@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/Instabug/netbird-gitops/pkg/data"
+	"github.com/mrsool/netbird-gitops/pkg/data"
 )
 
 // GetDNSSettings Get NetBird DNS settings

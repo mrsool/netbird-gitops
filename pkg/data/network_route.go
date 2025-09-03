@@ -1,6 +1,6 @@
 package data
 
-import "github.com/Instabug/netbird-gitops/pkg/util"
+import "github.com/mrsool/netbird-gitops/pkg/util"
 
 // NetworkRoute NetBird network route object
 type NetworkRoute struct {

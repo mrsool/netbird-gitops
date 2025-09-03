@@ -1,6 +1,6 @@
 # Security Policy
 
-NetBird's goal is to provide a secure network. If you find a vulnerability or bug, please report it by opening an issue [here](https://github.com/instabug/netbird-gitops/issues/new?assignees=&labels=&template=bug-issue-report.md&title=) or by contacting us by email.
+NetBird's goal is to provide a secure network. If you find a vulnerability or bug, please report it by opening an issue [here](https://github.com/mrsool/netbird-gitops/issues/new?assignees=&labels=&template=bug-issue-report.md&title=) or by contacting us by email.
 
 There has yet to be an official bug bounty program for the NetBird-GitOps project.
 
@@ -9,4 +9,4 @@ There has yet to be an official bug bounty program for the NetBird-GitOps projec
 
 ## Reporting a Vulnerability
 
-Please report security issues to `messam@instabug.com`
+Please report security issues to the Mrsool infrastructure team

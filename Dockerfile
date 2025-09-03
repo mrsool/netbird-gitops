@@ -1,7 +1,7 @@
 FROM --platform=${BUILDPLATFORM:-linux/amd64} golang:1.23.1 AS builder
 
-COPY . /go/src/github.com/instabug/netbird-gitops/
-WORKDIR /go/src/github.com/instabug/netbird-gitops/
+COPY . /go/src/github.com/mrsool/netbird-gitops/
+WORKDIR /go/src/github.com/mrsool/netbird-gitops/
 RUN set -Eeux && \
     go mod download && \
     go mod verify
@@ -17,6 +17,6 @@ RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build \
 FROM alpine:3.20.3
 RUN apk --no-cache add ca-certificates
 WORKDIR /root/
-COPY --from=builder /go/src/github.com/instabug/netbird-gitops/app .
+COPY --from=builder /go/src/github.com/mrsool/netbird-gitops/app .
 
 ENTRYPOINT ["/root/app"]

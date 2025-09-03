@@ -1,8 +1,8 @@
 # NetBird GitOps
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/Instabug/netbird-gitops.svg)](https://pkg.go.dev/github.com/Instabug/netbird-gitops)
-![CodeQL](https://github.com/instabug/netbird-gitops/actions/workflows/github-code-scanning/codeql/badge.svg)
-![Build](https://github.com/instabug/netbird-gitops/actions/workflows/docker-publish.yml/badge.svg)
+[![Go Reference](https://pkg.go.dev/badge/github.com/mrsool/netbird-gitops.svg)](https://pkg.go.dev/github.com/mrsool/netbird-gitops)
+![CodeQL](https://github.com/mrsool/netbird-gitops/actions/workflows/github-code-scanning/codeql/badge.svg)
+![Build](https://github.com/mrsool/netbird-gitops/actions/workflows/docker-publish.yml/badge.svg)
 
 This program is made to synchronize [Netbird](https://netbird.io) configuration 
 with a source-controller git repository.
@@ -17,7 +17,7 @@ standalone docker container
 ```yaml
 services:
   gitops:
-    image: instabug/netbird-gitops:latest
+    image: 634622424283.dkr.ecr.eu-west-3.amazonaws.com/mrsool/netbird-gitops:latest
     restart: unless-stopped
     commands:
       - --notify-services-path=/notify.yaml
@@ -28,7 +28,7 @@ services:
     environment:
       # Repository Clone URL
       - GIT_AUTH_METHOD=basic # Valid options (none, basic, ssh)
-      - GIT_REPO_URL=https://github.com/Instabug/netbird-gitops.git
+      - GIT_REPO_URL=https://github.com/mrsool/netbird-gitops.git
       # Path within repository for configurations, leave empty for root
       - GIT_RELATIVE_PATH=netbird-configs
       # HTTPS Username (Set to anything in case of access token)
