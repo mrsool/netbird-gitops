@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Instabug/netbird-gitops/pkg/client"
-	"github.com/Instabug/netbird-gitops/pkg/data"
+	"github.com/mrsool/netbird-gitops/pkg/client"
+	"github.com/mrsool/netbird-gitops/pkg/data"
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
 	"github.com/go-git/go-git/v5/plumbing/transport"

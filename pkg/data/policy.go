@@ -3,7 +3,7 @@ package data
 import (
 	"errors"
 
-	"github.com/Instabug/netbird-gitops/pkg/util"
+	"github.com/mrsool/netbird-gitops/pkg/util"
 )
 
 // TODO: Make object conform to weird NetBird API

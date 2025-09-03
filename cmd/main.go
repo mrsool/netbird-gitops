@@ -10,7 +10,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/Instabug/netbird-gitops/pkg/controller"
+	"github.com/mrsool/netbird-gitops/pkg/controller"
 	"github.com/go-git/go-git/v5/plumbing/transport"
 	"github.com/go-git/go-git/v5/plumbing/transport/http"
 	"github.com/go-git/go-git/v5/plumbing/transport/ssh"

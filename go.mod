@@ -1,4 +1,4 @@
-module github.com/Instabug/netbird-gitops
+module github.com/mrsool/netbird-gitops
 
 go 1.22
 

@@ -3,7 +3,7 @@ package data
 import (
 	"slices"
 
-	"github.com/Instabug/netbird-gitops/pkg/util"
+	"github.com/mrsool/netbird-gitops/pkg/util"
 )
 
 // DNS holds NetBird DNS Management settings
